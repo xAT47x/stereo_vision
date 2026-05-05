@@ -23,3 +23,31 @@ def plot_disparity_grid(results_dict, methods, window_sizes, pair_name=""):
                 
     plt.tight_layout()
     plt.show()
+
+
+def plot_alignment_path(path, save_path=None, pair_name="", row_index=None):
+
+    right_positions = [point[1] for point in path]
+    left_positions = [point[0] for point in path]
+
+    plt.figure(figsize=(7, 7))
+    plt.plot(right_positions, left_positions, color="tab:blue", linewidth=1.5)
+    plt.xlabel("Right image scanline position")
+    plt.ylabel("Left image scanline position")
+
+    title = "DP alignment path"
+    if pair_name:
+        title += f" - {pair_name}"
+    if row_index is not None:
+        title += f" - row {row_index}"
+    plt.title(title)
+
+    plt.grid(True, alpha=0.3)
+    plt.axis("equal")
+    plt.tight_layout()
+
+    if save_path is None:
+        plt.show()
+    else:
+        plt.savefig(save_path, dpi=150)
+        plt.close()
